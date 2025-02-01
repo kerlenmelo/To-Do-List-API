@@ -8,7 +8,6 @@ Esta API foi desenvolvida para gerenciar tarefas de uma **To-Do List**, permitin
 - **Express.js** - Framework para criação de APIs
 - **Sequelize** - ORM para manipulação do banco de dados
 - **SQLite** - Banco de dados leve e eficiente
-- **dotenv** - Gerenciamento de variáveis de ambiente
 
 ## 📂 Estrutura do Projeto
 ```
