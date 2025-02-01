@@ -1,0 +1,18 @@
+# 🗂️ Ignorar dependências do Node.js
+node_modules/
+npm-debug.log
+yarn.lock
+package-lock.json
+
+# 🚀 Arquivos de ambiente e configurações sensíveis
+.env
+.env.local
+
+# 📦 Banco de dados SQLite
+database.sqlite
+database.sqlite-journal
+
+# 💾 Arquivos de logs e cache
+
+# 🔧 Configuração do editor de código
+.vscode/

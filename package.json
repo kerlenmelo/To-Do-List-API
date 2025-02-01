@@ -1,0 +1,32 @@
+{
+  "name": "to-do-list-api",
+  "version": "1.0.0",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "nodemon server.js",
+    "lint": "eslint .",
+    "test": "jest"
+  },
+  "keywords": [
+    "todo",
+    "api",
+    "nodejs",
+    "express",
+    "sqlite"
+  ],
+  "author": "Kerlen Melo",
+  "license": "ISC",
+  "description": "Uma API simples de To-Do List utilizando Node.js, Express e SQLite",
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.9"
+  },
+  "dependencies": {
+    "express": "^4.21.2",
+    "sequelize": "^6.37.5",
+    "sqlite3": "^5.1.7"
+  }
+}
