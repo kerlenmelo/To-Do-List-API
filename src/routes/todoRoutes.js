@@ -25,8 +25,7 @@ router.post('/',
 router.put(`/:id`, 
     [
         body('title')
-            .notEmpty()
-            .withMessage('O título é obrigatório')
+            .optional()
             .isLength({ min: 3 })
             .withMessage('O título deve ter pelo menos 3 caracteres'),
         body('completed')

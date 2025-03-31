@@ -58,19 +58,28 @@ exports.updateTodo = async (req, res) => {
     if(!errors.isEmpty()) {
         return res.status(400).json({ errors: errors.array() })
     }
-    
+
     try {
         const { id } = req.params
         const { title, completed } = req.body
-
+        
         const todo = await Todo.findByPk(id)
-    
+        
         if (!todo) {
             return res.status(404).json({ error: "Erro ao atualizar tarefa. Tarefa não encontrada!"})
         }
-
+        
+        if(title === undefined && completed === undefined) {
+            return res.status(400).json({
+                error: 'Você precisa enviar pelo menos "title" ou "completed" para atualizar a tarefa.'
+            })
+        }
+        
         // Atualiza tarefa no banco
-        await todo.update({ title, completed })
+        await todo.update({ 
+            ...(title !== undefined && { title }), 
+            ...(completed !== undefined && { completed })
+        })
         res.status(200).json(todo)
         
     } catch (error) {
