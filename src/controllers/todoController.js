@@ -1,4 +1,5 @@
-const Todo = require('../models/Todo'); // importa o modelo
+const Todo = require('../models/Todo');
+const { validationResult } = require('express-validator');
 
 // Buscar todas as tarefas
 exports.getAllTodos = async (req, res) => {
@@ -36,18 +37,15 @@ exports.getTodoByID = async (req, res) => {
 
 // Criar uma tarefa
 exports.createTodo = async (req, res) => {
+    const errors = validationResult(req)
+    if(!errors.isEmpty()) {
+        return res.status(400).json({ errors: errors.array() })
+    }
+
     try {
-        const { title } = req.body;
-        
-        // Validação: título é obrigatório
-        if (!title) {
-            return res.status(400).json({ error: "Erro ao criar tarefa. O título é obrigatório!"})
-        }
-        
-        // Criar tarefa no banco
+        const { title } = req.body
         const novoTodo = await Todo.create({ title })
         res.status(201).json(novoTodo)
-        
     } catch (error) {
         console.error('Erro ao criar tarefa:', error)
         res.status(500).json({ error: "Erro interno no servidor" })
@@ -56,6 +54,11 @@ exports.createTodo = async (req, res) => {
 
 // Atualiza uma tarefa
 exports.updateTodo = async (req, res) => {
+    const errors = validationResult(req)
+    if(!errors.isEmpty()) {
+        return res.status(400).json({ errors: errors.array() })
+    }
+    
     try {
         const { id } = req.params
         const { title, completed } = req.body
