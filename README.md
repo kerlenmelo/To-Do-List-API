@@ -1,70 +1,75 @@
 # 📌 To-Do List API
 
 ## 📜 Sobre o Projeto
-Esta API foi desenvolvida para gerenciar tarefas de uma **To-Do List**, permitindo criar, listar, atualizar e excluir tarefas.
+Esta é uma API RESTful desenvolvida com foco em boas práticas de desenvolvimento backend. A aplicação permite que **usuários autenticados** possam criar, visualizar, atualizar e deletar suas tarefas de forma segura e organizada.
 
 ## 🚀 Tecnologias Utilizadas
-- **Node.js** - Plataforma de desenvolvimento
-- **Express.js** - Framework para criação de APIs
-- **Sequelize** - ORM para manipulação do banco de dados
-- **SQLite** - Banco de dados leve e eficiente
+- **Node.js** – Plataforma principal do backend
+- **Express.js** – Framework para criação de APIs RESTful
+- **Sequelize** – ORM para abstração e controle do banco de dados
+- **SQLite** – Banco de dados leve e ideal para desenvolvimento local
+- **JWT (JSON Web Token)** – Autenticação segura de usuários
+- **Express-validator** – Validação de dados de entrada
+
+## 🔐 Funcionalidades
+- Registro e login de usuários com senha criptografada (bcrypt)
+- Autenticação com JWT
+- Middleware para proteger rotas
+- CRUD completo de tarefas, restrito ao usuário autenticado
+- Validação de entrada com mensagens claras de erro
+- Controle de acesso a tarefas (usuário só acessa o que é dele)
+- Migrations com Sequelize CLI (sem uso de `.sync()`)
 
 ## 📂 Estrutura do Projeto
 ```
 📦 To-Do List API
-├── 📂 controllers  # Contém a lógica das requisições (CRUD)
-│   ├── todoController.js
-├── 📂 routes  # Define as rotas da API
-│   ├── todoRoutes.js
-├── 📂 models  # Define a estrutura da tabela no banco
-│   ├── Todo.js
-├── 📂 database  # Configuração do banco de dados
-│   ├── database.js
-├── server.js  # Arquivo principal da aplicação
-└── package.json  # Configurações do projeto
+├── src/
+│   ├── config/          # Configurações de ambiente e Sequelize
+│   ├── controllers/     # Lógica das requisições (auth, todo)
+│   ├── database/        # Conexão com SQLite
+│   ├── middlewares/     # Middlewares de autenticação, validação e erro
+│   ├── migrations/      # Histórico de estrutura do banco
+│   ├── models/          # Modelos Sequelize (User, Todo)
+│   └── routes/          # Rotas protegidas e públicas
+├── .env                 # Variáveis de ambiente (JWT, banco, porta)
+├── .sequelizerc         # Caminhos customizados do Sequelize CLI
+├── index.js             # Inicialização da aplicação
 ```
 
-## 🔧 Como Rodar o Projeto
-### 1️⃣ Clonar o Repositório
-```sh
+## 📦 Instalação e Execução
+```bash
+# 1. Clonar o repositório
 git clone https://github.com/kerlenmelo/To-Do-List-API.git
 cd To-Do-List-API
-```
-### 2️⃣ Instalar as Dependências
-```sh
+
+# 2. Instalar dependências
 npm install
+
+# 3. Rodar migrations para criar o banco
+npm run migrate
+
+# 4. Iniciar o servidor
+npm run dev
 ```
-### 3️⃣ Rodar o Servidor
-```sh
-npm start
-```
-A API estará disponível em: **http://localhost:3000**
 
 ## 📌 Endpoints da API
-### 🔹 Criar uma nova tarefa
-**POST /todos**
-```json
-{
-  "title": "Minha nova tarefa"
-}
+
+### 🔐 Autenticação
+- **POST /auth/register** – Registro de novo usuário
+- **POST /auth/login** – Login e retorno do token JWT
+
+### 📝 Tarefas (requer token)
+- **GET /todos** – Listar todas as tarefas do usuário
+- **GET /todos/:id** – Buscar uma tarefa específica
+- **POST /todos** – Criar nova tarefa
+- **PUT /todos/:id** – Atualizar tarefa
+- **DELETE /todos/:id** – Deletar tarefa
+
+## 📎 Exemplo de requisição com token
+```http
+Authorization: Bearer seu_token_aqui
 ```
-### 🔹 Listar todas as tarefas
-**GET /todos**
-### 🔹 Buscar uma tarefa pelo ID
-**GET /todos/:id**
-### 🔹 Atualizar uma tarefa
-**PUT /todos/:id**
-```json
-{
-  "title": "Tarefa Atualizada",
-  "completed": true
-}
-```
-### 🔹 Excluir uma tarefa
-**DELETE /todos/:id**
 
 ## 📞 Contato
-Se tiver dúvidas ou sugestões, entre em contato:
-- **GitHub**: [kerlenmelo](https://github.com/kerlenmelo)
-- **LinkedIn**: [kerlenmelo](https://www.linkedin.com/in/kerlenmelo/)
-
+- GitHub: [kerlenmelo](https://github.com/kerlenmelo)
+- LinkedIn: [kerlenmelo](https://www.linkedin.com/in/kerlenmelo/)
