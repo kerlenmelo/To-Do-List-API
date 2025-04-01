@@ -22,7 +22,7 @@ exports.register = async (req, res) => {
 
         res.status(201).json({
             message: 'Usuário criado com sucesso!',
-            userId: newUser.id
+            id: newUser.id
         })
     } catch (error) {
         console.error('Erro ao registrar usuário:', error)
@@ -45,9 +45,7 @@ exports.login = async (req, res) => {
             return res.status(400).json({ error: 'Credenciais inválidas' })
         }
 
-        const token = jwt.sign({ userId: user.id }, process.env.JWT_SECRET, {
-            expiresIn: '1h'
-        })
+        const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, { expiresIn: '1h' })
 
         res.status(200).json({ token })
     } catch (error) {
