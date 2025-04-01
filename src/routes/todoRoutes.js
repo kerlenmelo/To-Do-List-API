@@ -2,6 +2,10 @@ const express = require('express');
 const router = express.Router();
 const todoController = require('../controllers/todoController.js');
 const { body } = require('express-validator')
+const authMiddleware = require('../middlewares/authMiddleware.js')
+
+// Middleware para proteger todas as rotas
+router.use(authMiddleware)
 
 // GET - Buscar todas as tarefas
 router.get('/', todoController.getAllTodos)
