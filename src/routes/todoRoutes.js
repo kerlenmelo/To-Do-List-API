@@ -4,6 +4,7 @@ const todoController = require('../controllers/todoController.js');
 const { body, check } = require('express-validator')
 const authMiddleware = require('../middlewares/authMiddleware.js');
 const checkTodoOwner = require('../middlewares/checkTodoOwner.js');
+const validationHandler = require('../middlewares/validationHandler.js');
 
 // Middleware para proteger todas as rotas
 router.use(authMiddleware)
@@ -23,6 +24,7 @@ router.post('/',
             .isLength({ min: 3 })
             .withMessage('O título deve ter pelo menos 3 caracteres'),
     ],
+    validationHandler,
     todoController.createTodo
 )
 
@@ -38,6 +40,7 @@ router.put(`/:id`,
             .isBoolean()
             .withMessage('O campo "completed" deve ser um booleano')
     ],
+    validationHandler,
     checkTodoOwner,
     todoController.updateTodo
 )
