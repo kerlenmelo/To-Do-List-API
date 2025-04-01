@@ -1,5 +1,6 @@
 const sequelize = require('../database/database.js');
 const { DataTypes } = require('sequelize');
+const User = require('./User.js')
 
 // Definir o modelo da tabela
 const Todo = sequelize.define('Todo', {
@@ -8,14 +9,25 @@ const Todo = sequelize.define('Todo', {
         primaryKey: true,
         autoIncrement: true
     },
+
     title: {
         type: DataTypes.STRING,
         allowNull: false
     },
+
     completed:{
         type: DataTypes.BOOLEAN,
         defaultValue: false
+    },
+
+    userId: {
+        type: DataTypes.INTEGER,
+        allowNull: false
     }
 })
 
-module.exports = Todo; // exporta o modelo para ser utilizado em outros arquivos
+// Associações
+Todo.belongsTo(User, { foreignKey: 'userId' })
+User.hasMany(Todo, { foreignKey: 'userId' })
+
+module.exports = Todo;
