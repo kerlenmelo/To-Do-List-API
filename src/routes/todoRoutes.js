@@ -1,8 +1,9 @@
 const express = require('express');
 const router = express.Router();
 const todoController = require('../controllers/todoController.js');
-const { body } = require('express-validator')
-const authMiddleware = require('../middlewares/authMiddleware.js')
+const { body, check } = require('express-validator')
+const authMiddleware = require('../middlewares/authMiddleware.js');
+const checkTodoOwner = require('../middlewares/checkTodoOwner.js');
 
 // Middleware para proteger todas as rotas
 router.use(authMiddleware)
@@ -11,7 +12,7 @@ router.use(authMiddleware)
 router.get('/', todoController.getAllTodos)
 
 // GET - Buscar tarefa específica
-router.get('/:id', todoController.getTodoByID)
+router.get('/:id', checkTodoOwner, todoController.getTodoByID)
 
 // POST - Criar uma tarefa
 router.post('/',
@@ -37,10 +38,11 @@ router.put(`/:id`,
             .isBoolean()
             .withMessage('O campo "completed" deve ser um booleano')
     ],
+    checkTodoOwner,
     todoController.updateTodo
 )
 
 // DELETE - Deletar uma tarefa
-router.delete(`/:id`, todoController.deleteTodo)
+router.delete(`/:id`, checkTodoOwner, todoController.deleteTodo)
 
 module.exports = router; // exporta o router para ser utilizado em outro arquivo

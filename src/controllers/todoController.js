@@ -21,13 +21,7 @@ exports.getAllTodos = async (req, res) => {
 // Buscar uma tarefa específica
 exports.getTodoByID = async (req, res) => {
     try {
-        const { id } = req.params
-        const todo = await Todo.findOne({ where: { id, userId: req.user.id } })
-
-        if (!todo) {
-            return res.status(404).json({ error: "Tarefa não encontrada!"})
-        }
-        res.status(200).json(todo)
+        res.status(200).json(req.todo)
 
     } catch (error) {
         console.error('Erro ao buscar tarefa:', error)
@@ -62,14 +56,7 @@ exports.updateTodo = async (req, res) => {
     }
 
     try {
-        const { id } = req.params
         const { title, completed } = req.body
-        
-        const todo = await Todo.findOne({ where: { id, userId: req.user.id } })
-        
-        if (!todo) {
-            return res.status(404).json({ error: "Erro ao atualizar tarefa. Tarefa não encontrada!"})
-        }
         
         if(title === undefined && completed === undefined) {
             return res.status(400).json({
@@ -78,11 +65,12 @@ exports.updateTodo = async (req, res) => {
         }
         
         // Atualiza tarefa no banco
-        await todo.update({ 
+        await req.todo.update({ 
             ...(title !== undefined && { title }), 
             ...(completed !== undefined && { completed })
         })
-        res.status(200).json(todo)
+
+        res.status(200).json(req.todo)
         
     } catch (error) {
         console.error('Erro ao atualizar tarefa:', error)
@@ -93,13 +81,7 @@ exports.updateTodo = async (req, res) => {
 // Deletar uma tarefa
 exports.deleteTodo = async (req, res) => {
     try {
-        const { id } = req.params
-        const todo = await Todo.findOne({ where: { id, userId: req.user.id } })
-
-        if (!todo) {
-            return res.status(404).json({ error: "Erro ao deletar tarefa. Tarefa não encontrada!"})
-        }
-        await todo.destroy()
+        await req.todo.destroy()
         res.status(200).json({ message: "Tarefa deletada!"})
     } catch (error) {
         console.error('Erro ao deletar tarefa:', error)
